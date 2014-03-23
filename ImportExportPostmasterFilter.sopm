@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<otrs_package version="1.0">
+    <CVS>$Id: ImportExportPostmasterFilter.sopm,v 1.1.1.1 2011/04/15 07:49:58 rb Exp $</CVS>
+    <Name>ImportExportPostmasterFilter</Name>
+    <Version>3.3.1</Version>
+    <Framework>3.0.x</Framework>
+    <Framework>3.1.x</Framework>
+    <Framework>3.2.x</Framework>
+    <Framework>3.3.x</Framework>
+    <Vendor>Perl-Services.de</Vendor>
+    <URL>http://www.perl-services.de</URL>
+    <Description Lang="de">Import/Export Funktionalität für Postmaster-Filter</Description>
+    <Description Lang="en">Import/Export functionality for Postmaster filters</Description>
+    <License>GNU AFFERO GENERAL PUBLIC LICENSE Version 3, November 2007</License>
+    <Filelist>
+        <File Permission="644" Location="Custom/Kernel/Modules/AdminImportExportPostmasterFilter.pm" />
+        <File Permission="644" Location="Custom/Kernel/System/PostMaster/ImportExport.pm" />
+        <File Permission="644" Location="Kernel/Config/Files/ImportExportPostmasterFilter.xml" />
+        <File Permission="644" Location="Kernel/Language/de_ImportExportPostmasterFilter.pm" />
+        <File Permission="644" Location="Kernel/Output/HTML/OutputFilterImportExportPostmasterFilter.pm" />
+        <File Permission="644" Location="Kernel/Output/HTML/Standard/AdminImportPostmasterFilter.dtl" />
+        <File Permission="644" Location="Kernel/Output/HTML/Standard/ImportExportPostmasterFilterWidget.dtl" />
+        <File Permission="755" Location="bin/ps.ImportExportPostmasterFilter.pl" />
+        <File Permission="644" Location="doc/ImportExportPostmasterFilter.json" />
+        <File Permission="644" Location="doc/en/ImportExportPostmasterFilter.pod" />
+    </Filelist>
+</otrs_package>

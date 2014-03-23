@@ -1,0 +1,20 @@
+=head1 NAME
+
+ImportExportPostmasterFilter
+
+=head1 DESCRIPTION
+
+You might have two OTRS instances and you want to copy all or a single Postmaster Filter from one
+instance to the other. Currently there is no safe way but copying the filters manually.
+
+This add on inserts a new widget in the AdminPostMasterFilter pages that allows the admin to import
+or export filters.
+
+The export on the filter overview create a JSON file with all filters. If you need to export a single
+filter, go to the edit page an click on "Export".
+
+For the import you can define whether existing filters (with the same name) should be overridden or not.
+
+=head1 AUTHOR
+
+Renee Baecker, L<http://perl-services.de>
