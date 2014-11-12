@@ -32,7 +32,7 @@ sub new {
     # check needed objects
     for my $NeededData (qw(Subaction UserID)) {
         if ( !$Param{$NeededData} ) {
-            $ayoutObject->FatalError( Message => "Got no $NeededData!" );
+            $LayoutObject->FatalError( Message => "Got no $NeededData!" );
         }
         $Self->{$NeededData} = $Param{$NeededData};
     }
