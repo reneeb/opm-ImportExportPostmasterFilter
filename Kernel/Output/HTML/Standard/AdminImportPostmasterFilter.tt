@@ -12,17 +12,17 @@
     <div class="W50pc SpacingBottomLarge CenterBox">
         <div class="WidgetSimple">
             <div class="Header">
-                <h2>$Text{"Import Postmaster Filter"}</h2>
+                <h2>[% Translate("Import Postmaster Filter") | html %]</h2>
             </div>
             <div class="Content">
 
-                <form action="$Env{"CGIHandle"}" method="post" enctype="multipart/form-data">
-                    <input type="hidden" name="Action"    value="$Env{"Action"}"/>
+                <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="Action"    value="[% Env("Action") %]"/>
                     <input type="hidden" name="Subaction" value="Import"/>
                     <input type="hidden" name="Status"    value="Action"/>
 
                     <fieldset class="TableLike">
-                        <label for="file_upload">$Text{"File"}:</label>
+                        <label for="file_upload">[% Translate("File") | html %]:</label>
                         <div class="Field">
                             <input name="file_upload" id="file_upload" type="file" size="30"/>
                             <input type="hidden" name="ImportType" value="Upload"/>
@@ -30,8 +30,8 @@
                     </fieldset>
 
                     <p class="Center">
-                        <button class="Primary" accesskey="g" title="$Text{"Import"} (g)" type="submit" value="$Text{"Import"}">$Text{"Import"}</button>
-                        <a href="$Env{"Baselink"}Action=AdminPostMasterFilter">$Text{"Cancel"}</a>
+                        <button class="Primary" accesskey="g" title="[% Translate("Import") | html %] (g)" type="submit" value="[% Translate("Import") | html %]">[% Translate("Import") | html %]</button>
+                        <a href="[% Env("Baselink") %]Action=AdminPostMasterFilter">[% Translate("Cancel") | html %]</a>
                     </p>
                 </form>
             </div>

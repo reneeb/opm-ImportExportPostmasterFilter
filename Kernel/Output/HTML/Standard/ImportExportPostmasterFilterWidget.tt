@@ -10,18 +10,18 @@
     <div class="SidebarColumn">
         <div class="WidgetSimple">
             <div class="Header">
-                <h2>$Text{"Import/Export"}</h2>
+                <h2>[% Translate("Import/Export") | html %]</h2>
             </div>
             <div class="Content">
                 <ul class="ActionList">
                     <li>
-                        <a href="$Env{"CGIHandle"}?Action=AdminImportExportPostmasterFilter;Subaction=Export;Name=$Data{"Name"}" class="CallForAction"><span>$Text{"Export"}</span></a>
+                        <a href="[% Env("CGIHandle") %]?Action=AdminImportExportPostmasterFilter;Subaction=Export;Name=[% Data.Name %]" class="CallForAction"><span>[% Translate("Export") | html %]</span></a>
                     </li>
-<!-- dtl:block:Import -->
+[% RenderBlockStart("Import") %]
                     <li>
-                        <a href="$Env{"CGIHandle"}?Action=AdminImportExportPostmasterFilter;Subaction=Import" class="CallForAction"><span>$Text{"Import"}</span></a>
+                        <a href="[% Env("CGIHandle") %]?Action=AdminImportExportPostmasterFilter;Subaction=Import" class="CallForAction"><span>[% Translate("Import") | html %]</span></a>
                     </li>
-<!-- dtl:block:Import -->
+[% RenderBlockEnd("Import") %]
                 </ul>
             </div>
         </div>
