@@ -1,8 +1,8 @@
 #!/usr/bin/perl
 
 # --
-# bin/ps.ImportExportPostmasterFilter.pl - import/export dynamic fields
-# Copyright (C) 2013 Perl-Services.de, http://perl-services.de
+# bin/ps.ImportExportPostmasterFilter.pl - import/export postmaster filter
+# Copyright (C) 2013 - 2014 Perl-Services.de, http://perl-services.de
 # --
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU AFFERO General Public License as published by
@@ -29,31 +29,23 @@ use lib dirname($RealBin);
 
 use vars qw (%opts);
 use Getopt::Long;
+
+use Kernel::System::ObjectManager;
+
+# create common objects
+local $Kernel::OM = Kernel::System::ObjectManager->new(
+    'Kernel::System::Log' => {
+        LogPrefix => 'OTRS-ps.ImportExportPostmasterFilter.pl',
+    },
+);
+
 GetOptions(
     'm=s' => \$opts{m},
     'f=s' => \$opts{f},
 );
 
-use Kernel::Config;
-use Kernel::System::Encode;
-use Kernel::System::Log;
-use Kernel::System::Time;
-use Kernel::System::Main;
-use Kernel::System::DB;
-use Kernel::System::PostMaster::ImportExport;
-
-# create common objects
-my %CommonObject = ();
-$CommonObject{ConfigObject} = Kernel::Config->new(%CommonObject);
-$CommonObject{EncodeObject} = Kernel::System::Encode->new(%CommonObject);
-$CommonObject{LogObject}    = Kernel::System::Log->new(
-    LogPrefix => 'OTRS-ps.ImportExportPostmasterFilter.pl',
-    %CommonObject,
-);
-$CommonObject{TimeObject} = Kernel::System::Time->new(%CommonObject);
-$CommonObject{MainObject} = Kernel::System::Main->new(%CommonObject);
-$CommonObject{DBObject}   = Kernel::System::DB->new(%CommonObject);
-$CommonObject{UtilObject} = Kernel::System::PostMaster::ImportExport->new(%CommonObject);
+my $UtilObject = $Kernel::OM->Get('Kernel::System::PostMaster::ImportExport');
+my $MainObject = $Kernel::OM->Get('Kernel::System::Main');
 
 $opts{m} ||= 'export';
 $opts{m} = lc $opts{m};
@@ -81,7 +73,7 @@ Example:
 
 if ( $opts{m} eq 'export' ) {
 
-    my $JSON = $CommonObject{UtilObject}->PostmasterFilterExport(
+    my $JSON = $UtilObject->PostmasterFilterExport(
         IDs => \@ARGV,
     );
 
@@ -89,18 +81,18 @@ if ( $opts{m} eq 'export' ) {
         print $JSON;
     }
     else {
-        $CommonObject{MainObject}->FileWrite(
+        $MainObject->FileWrite(
             Location => $opts{f},
             Content  => \$JSON,
         );
     }
 }
 else {
-    my $ContentRef = $CommonObject{MainObject}->FileRead(
+    my $ContentRef = $MainObject->FileRead(
         Location => $opts{f},
     );
 
-    $CommonObject{UtilObject}->PostmasterFilterImport(
+    $UtilObject->PostmasterFilterImport(
         Filters => ${$ContentRef},
         UserID  => 1,
     );
