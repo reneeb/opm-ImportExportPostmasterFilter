@@ -14,8 +14,11 @@ use warnings;
 
 use List::Util qw(first);
 
-use vars qw($VERSION);
-$VERSION = qw($Revision: 1.1 $) [1];
+our $VERSION = 0.02;
+
+our @ObjectDependencies = qw(
+    Kernel::System::Web::Request
+);
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -23,14 +26,6 @@ sub new {
     # allocate new hash for object
     my $Self = {};
     bless( $Self, $Type );
-
-    # get needed objects
-    for my $Object (
-        qw(MainObject ConfigObject LogObject LayoutObject ParamObject)
-        )
-    {
-        $Self->{$Object} = $Param{$Object} || die "Got no $Object!";
-    }
 
     $Self->{UserID} = $Param{UserID};
 
@@ -46,15 +41,18 @@ sub Run {
 
     return 1 if !first{ $Templatename eq $_ }keys %{$Param{Templates} || { AdminPostMasterFilter => 1 } };
 
-    my $Name = $Self->{ParamObject}->GetParam( Param => 'Name' );
+    my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
+    my $Name = $ParamObject->GetParam( Param => 'Name' );
 
     if ( !$Name ) {
-        $Self->{LayoutObject}->Block(
+        $LayoutObject->Block(
             Name => 'Import',
         );
     }
 
-    my $Snippet = $Self->{LayoutObject}->Output(
+    my $Snippet = $LayoutObject->Output(
         TemplateFile => 'ImportExportPostmasterFilterWidget',
         Data         => {
             Name => $Name,
