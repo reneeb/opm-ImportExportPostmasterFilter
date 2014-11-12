@@ -15,6 +15,17 @@ filter, go to the edit page an click on "Export".
 
 For the import you can define whether existing filters (with the same name) should be overridden or not.
 
+=head1 BUGS AND SUPPORT
+
+If you find any bugs, please drop me a line at C<opar@perl-services.de> as I do not read the comments
+regularly.
+
+=head1 REPOSITORY
+
+In case you want to play with the code, the repository can be found at
+L<http://github.com/reneeb/otrs-ImportExportPostmasterFilter>. That way you can
+add new features and send pull requests...
+
 =head1 AUTHOR
 
 Renee Baecker, L<http://perl-services.de>
