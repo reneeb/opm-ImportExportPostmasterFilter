@@ -14,7 +14,11 @@ use warnings;
 
 use List::Util qw( first );
 
-use Kernel::System::PostMaster::ImportExport;
+my @ObjectDependencies = qw(
+    Kernel::System::Web::Request
+    Kernel::Output::HTML::Layout
+    Kernel::System::PostMaster::ImportExport
+);
 
 sub new {
     my ( $Type, %Param ) = @_;
@@ -23,19 +27,15 @@ sub new {
     my $Self = {};
     bless( $Self, $Type );
 
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+
     # check needed objects
-    for my $NeededData (
-        qw(ParamObject DBObject LayoutObject LogObject ConfigObject MainObject EncodeObject Subaction)
-        )
-    {
+    for my $NeededData (qw(Subaction UserID)) {
         if ( !$Param{$NeededData} ) {
-            $Param{LayoutObject}->FatalError( Message => "Got no $NeededData!" );
+            $ayoutObject->FatalError( Message => "Got no $NeededData!" );
         }
         $Self->{$NeededData} = $Param{$NeededData};
     }
-
-    # create necessary objects
-    $Self->{ImportExportObject} = Kernel::System::PostMaster::ImportExport->new( %{$Self} );
 
     return $Self;
 }
@@ -43,20 +43,24 @@ sub new {
 sub Run {
     my ( $Self, %Param ) = @_;
 
+    my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $ImExObject   = $Kernel::OM->Get('Kernel::System::PostMaster::ImportExport');
+
     if ( $Self->{Subaction} eq 'Export' ) {
 
         my %Opts;
 
-        my $Name = $Self->{ParamObject}->GetParam( Param => 'Name' );
+        my $Name = $ParamObject->GetParam( Param => 'Name' );
         if ( $Name ) {
             $Opts{IDs} = [ $Name ];
         }
 
-        my $JSON = $Self->{ImportExportObject}->PostmasterFilterExport(
+        my $JSON = $ImExObject->PostmasterFilterExport(
             %Opts,
         );
 
-        return $Self->{LayoutObject}->Attachment(
+        return $LayoutObject->Attachment(
             Filename    => 'PostmasterFilter.json',
             Content     => $JSON,
             ContentType => 'text/json',
@@ -72,39 +76,39 @@ sub Run {
         my $Error = 0;
 
         # get params
-        $Param{Status} = $Self->{ParamObject}->GetParam( Param => 'Status' );
+        $Param{Status} = $ParamObject->GetParam( Param => 'Status' );
 
         # importing
         if ( $Param{Status} && $Param{Status} eq 'Action' ) {
 
             # challenge token check for write action
-            $Self->{LayoutObject}->ChallengeTokenCheck();
+            $LayoutObject->ChallengeTokenCheck();
 
             my $Uploadfile = '';
-            if ( $Uploadfile = $Self->{ParamObject}->GetParam( Param => 'file_upload' ) ) {
-                my %UploadStuff = $Self->{ParamObject}->GetUploadAll(
+            if ( $Uploadfile = $ParamObject->GetParam( Param => 'file_upload' ) ) {
+                my %UploadStuff = $ParamObject->GetUploadAll(
                     Param    => 'file_upload',
                     Encoding => 'Raw'
                 );
 
-                my $Success = $Self->{ImportExportObject}->PostmasterFilterImport(
+                my $Success = $ImExObject->PostmasterFilterImport(
                     Filters => $UploadStuff{Content},
                 );
             }
         }
 
         # show import form
-        my $Output = $Self->{LayoutObject}->Header( Title => 'Import' );
-        $Output .= $Self->{LayoutObject}->NavigationBar();
-        $Output .= $Self->{LayoutObject}->Output( TemplateFile => 'AdminImportPostmasterFilter' );
-        $Output .= $Self->{LayoutObject}->Footer();
+        my $Output = $LayoutObject->Header( Title => 'Import' );
+        $Output .= $LayoutObject->NavigationBar();
+        $Output .= $LayoutObject->Output( TemplateFile => 'AdminImportPostmasterFilter' );
+        $Output .= $LayoutObject->Footer();
         return $Output;
     }
 
     # ---------------------------------------------------------- #
     # show error screen
     # ---------------------------------------------------------- #
-    return $Self->{LayoutObject}->ErrorScreen( Message => 'Invalid Subaction process!' );
+    return $LayoutObject->ErrorScreen( Message => 'Invalid Subaction process!' );
 }
 
 1;
