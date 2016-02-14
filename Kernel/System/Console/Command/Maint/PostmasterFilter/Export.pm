@@ -65,6 +65,7 @@ sub Run {
         $MainObject->FileWrite(
             Location => $File,
             Content  => \$JSON,
+            Mode     => 'utf-8',
         );
     }
 

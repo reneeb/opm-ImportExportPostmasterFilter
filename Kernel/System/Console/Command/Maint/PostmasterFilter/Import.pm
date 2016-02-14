@@ -47,6 +47,7 @@ sub Run {
     my $File       = $Self->GetOption('file');
     my $ContentRef = $MainObject->FileRead(
         Location => $File,
+        Mode     => 'utf-8',
     );
 
     $UtilObject->PostmasterFilterImport(
