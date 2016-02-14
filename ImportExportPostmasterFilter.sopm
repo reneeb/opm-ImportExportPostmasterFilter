@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <otrs_package version="1.0">
-    <!-- GENERATED WITH OTRS::OPM::Maker::Command::sopm (1.25) -->
+    <!-- GENERATED WITH OTRS::OPM::Maker::Command::sopm (1.33) -->
     <Name>ImportExportPostmasterFilter</Name>
-    <Version>4.0.1</Version>
-    <Framework>4.0.x</Framework>
+    <Version>5.0.1</Version>
+    <Framework>5.0.x</Framework>
     <Vendor>Perl-Services.de</Vendor>
     <URL>http://www.perl-services.de</URL>
     <Description Lang="de">Import/Export Funktionalität für Postmaster-Filter</Description>
@@ -11,13 +11,14 @@
     <License>GNU AFFERO GENERAL PUBLIC LICENSE Version 3, November 2007</License>
     <Filelist>
         <File Permission="644" Location="Custom/Kernel/Modules/AdminImportExportPostmasterFilter.pm" />
+        <File Permission="644" Location="Custom/Kernel/Output/HTML/FilterElementPost/ImportExportPostmasterFilter.pm" />
+        <File Permission="644" Location="Custom/Kernel/Output/HTML/Templates/Standard/AdminImportPostmasterFilter.tt" />
+        <File Permission="644" Location="Custom/Kernel/Output/HTML/Templates/Standard/ImportExportPostmasterFilterWidget.tt" />
         <File Permission="644" Location="Custom/Kernel/System/PostMaster/ImportExport.pm" />
         <File Permission="644" Location="Kernel/Config/Files/ImportExportPostmasterFilter.xml" />
         <File Permission="644" Location="Kernel/Language/de_ImportExportPostmasterFilter.pm" />
-        <File Permission="644" Location="Kernel/Output/HTML/OutputFilterImportExportPostmasterFilter.pm" />
-        <File Permission="644" Location="Kernel/Output/HTML/Standard/AdminImportPostmasterFilter.tt" />
-        <File Permission="644" Location="Kernel/Output/HTML/Standard/ImportExportPostmasterFilterWidget.tt" />
-        <File Permission="755" Location="bin/ps.ImportExportPostmasterFilter.pl" />
+        <File Permission="644" Location="Kernel/System/Console/Command/Maint/PostmasterFilter/Export.pm" />
+        <File Permission="644" Location="Kernel/System/Console/Command/Maint/PostmasterFilter/Import.pm" />
         <File Permission="644" Location="doc/ImportExportPostmasterFilter.json" />
         <File Permission="644" Location="doc/en/ImportExportPostmasterFilter.pod" />
     </Filelist>
