@@ -1,6 +1,6 @@
 # --
 # Kernel/System/PostMaster/ImportExport.pm - Utility module for PostMasters provided by Perl-Services.de
-# Copyright (C) 2013 - 2014 Perl-Services.de, http://perl-services.de
+# Copyright (C) 2013 - 2016 Perl-Services.de, http://perl-services.de
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
@@ -11,8 +11,6 @@ package Kernel::System::PostMaster::ImportExport;
 
 use strict;
 use warnings;
-
-our $VERSION = 0.02;
 
 our @ObjectDependencies = qw(
     Kernel::Config
@@ -155,17 +153,17 @@ sub PostmasterFilterImport {
             $Name = $Row[0];
         }
 
-        next FIELD if $Name && !$DoOverride;
+        next FILTER if $Name && !$DoOverride;
 
         if ( $Name ) {
-            next FIELD if !$DBObject->Do(
+            next FILTER if !$DBObject->Do(
                 SQL  => $DeleteSQL,
                 Bind => [ \$Filter ],
             );
         } 
 
         for my $Part ( @{ $Filters->{$Filter} } ) {
-            next FIELD if !$DBObject->Do(
+            next FILTER if !$DBObject->Do(
                 SQL  => $InsertSQL,
                 Bind => [
                     \$Filter,
