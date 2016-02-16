@@ -12,6 +12,8 @@ package Kernel::System::PostMaster::ImportExport;
 use strict;
 use warnings;
 
+use JSON;
+
 our @ObjectDependencies = qw(
     Kernel::Config
     Kernel::System::Log
@@ -115,9 +117,10 @@ sub PostmasterFilterImport {
 
     my $Filters;
     eval {
-        $Filters = $JSONObject->Decode(
-            Data => $Param{Filters},
-        );
+        #$Filters = $JSONObject->Decode(
+        #    Data => $Param{Filters},
+        #);
+        $Filters = JSON->new->allow_nonref(1)->utf8(1)->decode( $Param{Filters} );
     };
 
     return if !$Filters;
