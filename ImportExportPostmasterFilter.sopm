@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <otrs_package version="1.0">
-    <!-- GENERATED WITH OTRS::OPM::Maker::Command::sopm (1.37) -->
+    <!-- GENERATED WITH OTRS::OPM::Maker::Command::sopm (1.39) -->
     <Name>ImportExportPostmasterFilter</Name>
-    <Version>5.0.4</Version>
-    <Framework>5.0.x</Framework>
+    <Version>6.0.1</Version>
+    <Framework>6.0.x</Framework>
     <Vendor>Perl-Services.de</Vendor>
     <URL>http://www.perl-services.de</URL>
     <Description Lang="de">Import/Export Funktionalität für Postmaster-Filter</Description>
@@ -15,7 +15,7 @@
         <File Permission="644" Location="Custom/Kernel/Output/HTML/Templates/Standard/AdminImportPostmasterFilter.tt" />
         <File Permission="644" Location="Custom/Kernel/Output/HTML/Templates/Standard/ImportExportPostmasterFilterWidget.tt" />
         <File Permission="644" Location="Custom/Kernel/System/PostMaster/ImportExport.pm" />
-        <File Permission="644" Location="Kernel/Config/Files/ImportExportPostmasterFilter.xml" />
+        <File Permission="644" Location="Kernel/Config/Files/XML/ImportExportPostmasterFilter.xml" />
         <File Permission="644" Location="Kernel/Language/de_ImportExportPostmasterFilter.pm" />
         <File Permission="644" Location="Kernel/System/Console/Command/Maint/PostmasterFilter/Export.pm" />
         <File Permission="644" Location="Kernel/System/Console/Command/Maint/PostmasterFilter/Import.pm" />
