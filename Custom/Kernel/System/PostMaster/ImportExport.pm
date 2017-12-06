@@ -77,18 +77,31 @@ sub PostmasterFilterExport {
     my %Filters;
     while ( my @Row = $DBObject->FetchrowArray() ) {
         my %Filter = (
-            Stop  => $Row[1],
             Type  => $Row[2],
             Key   => $Row[3],
             Value => $Row[4],
             Not   => $Row[5],
         );
 
-        push @{$Filters{$Row[0]}}, \%Filter;
+        $Filters{$Row[0]}->{Stop} = $Row[1];
+        push @{$Filters{$Row[0]}->{Entries}}, \%Filter;
     }
 
+    my @AllFilters;
+    for my $Name ( sort keys %Filters ) {
+        push @AllFilters, {
+            Name => $Name,
+            %{ $Filters{$Name} },
+        },
+    }
+
+    my %ExportData = (
+        Version => 1,
+        Filters => \@AllFilters,
+    );
+
     my $JSON = $JSONObject->Encode(
-        Data => \%Filters,
+        Data => \%ExportData,
     ); 
 
     return $JSON;
@@ -124,6 +137,8 @@ sub PostmasterFilterImport {
     };
 
     return if !$Filters;
+
+    $Filters = $Self->_HandleByVersion( Filters => $Filters );
 
     my ($FNot, $Placeholder) = ('','');
     if ( $Self->{f_not} ) {
@@ -181,6 +196,42 @@ sub PostmasterFilterImport {
     }
 
     return 1;
+}
+
+sub _HandleByVersion {
+    my ($Self, %Param) = @_;
+
+    my $Filters = $Param{Filters};
+
+    return if !$Filters;               # anything went wrong
+    return if !ref $Filters;           # anything went wrong, we need a reference
+    return if ref $Filters ne 'HASH';  # anything went wrong
+
+    # handle version 0
+    if ( !exists $Filters->{Version} || ref $Filters->{Version} ) {
+        return $Filters;
+    }
+
+    # handle version 1
+    if ( $Filters->{Version} == 1 ) {
+        my %ImportFilters;
+
+        for my $Filter ( @{ $Filters->{Filters} || [] } ) {
+            my $Name = $Filter->{Name};
+            my $Stop = $Filter->{Stop};
+
+            my @Entries = map {
+                $_->{Stop} = $Stop;
+                $_;
+            } @{ $Filter->{Entries} || [] };
+
+            $ImportFilters{$Name} = \@Entries;
+        }
+
+        return \%ImportFilters;
+    }
+
+    return;
 }
 
 sub _OTRSVersionGet {
