@@ -80,7 +80,7 @@ sub PostmasterFilterExport {
             Type  => $Row[2],
             Key   => $Row[3],
             Value => $Row[4],
-            Not   => $Row[5],
+            Not   => $Row[5] ? 1 : 0,
         );
 
         $Filters{$Row[0]}->{Stop} = $Row[1];
@@ -222,6 +222,7 @@ sub _HandleByVersion {
 
             my @Entries = map {
                 $_->{Stop} = $Stop;
+                $_->{Not}  = undef if !$_->{Not};
                 $_;
             } @{ $Filter->{Entries} || [] };
 
