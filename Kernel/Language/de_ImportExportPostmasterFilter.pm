@@ -1,6 +1,6 @@
 # --
 # Kernel/Language/de_ImportExportPostmasterFilter.pm - the german translation of ImportExportPostmasterFilter
-# Copyright (C) 2013 - 2022 Perl-Services, https://www.perl-services.de
+# Copyright (C) 2013 - 2023 Perl-Services, https://www.perl-services.de
 # --
 # This software comes with ABSOLUTELY NO WARRANTY. For details, see
 # the enclosed file COPYING for license information (AGPL). If you
